@@ -6,4 +6,7 @@ from pessoas.models import Pessoa
 
 def fluxoListar(request):
     fluxo = Conta
-    return render(request, 'fluxos/fluxoListar.html', {'fluxo': fluxo})
+    pessoas = Pessoa.objects.all().order_by('nome')
+
+    return render(request, 'fluxos/fluxoListar.html', {'fluxo': fluxo, 'pessoas': pessoas})
+
