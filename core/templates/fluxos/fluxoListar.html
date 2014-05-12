@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Fluxo de Caixa{% endblock titulo %}
+
+{% block conteudo %}
+<script type="text/javascript">
+  $(function() {
+    $('.datetimepicker').datetimepicker({
+      language: 'pt-BR'
+    });
+  });
+</script>
+<div align="center"> 
+  <form role="form" method="POST" action="/fluxocaixa/pesquisar/">{% csrf_token %}
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-5">
+          <div id="datetimepicker" class="input-append date datetimepicker" class="form-control">
+            <input type="text" name="dataBuscaInicio" value="" style="height: 35px;">
+            <span class="add-on">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>
+          <!--<div id="datetimepicker2" class="input-append date datetimepicker" class="form-control">
+            <input type="text" name="dataBuscaFinal" value="" style="height: 35px;">
+            <span class="add-on">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>-->
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+          <select class="form-control" name="pessoaBusca" id="pessoaBusca" >
+            <option value="0">SELECIONE UMA PESSOA</option>
+            {% for pessoa in pessoas %}
+                {% if pessoa.id == conta.pessoa.id %}
+                <option value="{{ pessoa.id }}" selected>{{ pessoa.nome }} - {{ pessoa.email }}</option>
+                {% else %}
+                <option value="{{ pessoa.id }}">{{ pessoa.nome }} - {{ pessoa.email }}</option>
+                {% endif %}
+            {% endfor %} 
+          </select>
+        </div>
+        <div class="col-md-2" align="center">
+          <button type="submit" class="btn btn-primary">Pesquisar <span class="glyphicon glyphicon-search"></span></button>
+        </div>
+      </div>
+    </div>  
+  </form>
+  
+  <!--<a href="/caixas/adicionar/" class="btn btn-warning">Cadastra Conta</a>-->
+
+</div>
+<hr>
+{% for nome in nome %}
+  <h4>Nome: {{ nome.nome }}</h4>
+{% endfor %}  
+<br />
+<div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Descrição da Conta</th>
+            <th>Data</th>
+            <th>Tipo</th>
+            <th>R$</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for conta in contas %}
+          <tr>            
+            <td>{{ conta.descricao }}</td>
+            <td>{{ conta.data|date:"d/m/Y" }}</td>
+            <td>{{ conta.tipo }}</td>
+            <td>{{ conta.valor }}</td>
+          </tr>
+        {% endfor %}
+          <tr>
+            <td colspan="2"></td>
+            <td><span style="font-weight:bold;">Total a Receber:</span> {{totalreceber}}</td>
+            <td><span style="font-weight:bold;">Total a Pagar:</span> {{totalpagar}}</td>
+          </tr>  
+        </tbody>
+      </table>
+</div>
+
+{% endblock conteudo %}
