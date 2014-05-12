@@ -27,6 +27,9 @@
     }
   }
 </script>
+<style type="text/css" media="print">
+  nav, footer, div[align='center'], .btn{display: none;}
+</style>
 
 <div align="center"> 
   <form onsubmit="return Validar(this);" role="form" method="POST" action="/fluxocaixa/pesquisar/" >{% csrf_token %}
@@ -71,7 +74,7 @@
   <h4>Nome: {{ nome.nome }}</h4>
 {% endfor %}  
 <br />
-<div class="table-responsive">
+<div id="tableFluxo" class="table-responsive">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -98,5 +101,6 @@
         </tbody>
       </table>
 </div>
+<button class="btn btn-primary" onclick="window.print();" style="float:right;" >Imprimir </button>
 
 {% endblock conteudo %}

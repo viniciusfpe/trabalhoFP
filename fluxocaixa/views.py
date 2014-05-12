@@ -31,7 +31,6 @@ def fluxoPesquisar(request):
                     totalreceber = totalreceber + item.valor
                 else:
                     totalpagar = totalpagar + item.valor
-
         except:
             contas = [Conta(descricao='erro')]
 
