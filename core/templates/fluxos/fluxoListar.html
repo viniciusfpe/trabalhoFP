@@ -3,37 +3,55 @@
 {% block titulo %}Fluxo de Caixa{% endblock titulo %}
 
 {% block conteudo %}
+
 <script type="text/javascript">
   $(function() {
-    $('.datetimepicker').datetimepicker({
+    $('#datetimepicker1').datetimepicker({
+      format: 'dd/MM/yyyy hh:mm:ss',
+      language: 'pt-BR'
+    });
+    $('#datetimepicker2').datetimepicker({
+      format: 'dd/MM/yyyy hh:mm:ss',
       language: 'pt-BR'
     });
   });
+  function Validar(form){
+
+    if(form.dataBuscaInicio.value=="" || form.dataBuscaFinal.value==""){
+      alert("Preencha as datas corretamente.");
+      form.dataBuscaFinal.focus();
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
 </script>
+
 <div align="center"> 
-  <form role="form" method="POST" action="/fluxocaixa/pesquisar/">{% csrf_token %}
+  <form onsubmit="return Validar(this);" role="form" method="POST" action="/fluxocaixa/pesquisar/" >{% csrf_token %}
     <div class="form-group">
       <div class="row">
-        <div class="col-md-5">
-          <div id="datetimepicker" class="input-append date datetimepicker" class="form-control">
-            <input type="text" name="dataBuscaInicio" value="" style="height: 35px;">
-            <span class="add-on">
+        <div class="col-md-5">          
+          <div id="datetimepicker1" class="input-append date " style="float: left; ">
+            <input type="text" name="dataBuscaInicio" style="height: 35px; width: 145px;" placeholder="De:">
+            <span class="add-on" style="height: 35px;">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>         
+          <div id="datetimepicker2" class="input-append date " >
+            <input type="text" name="dataBuscaFinal" style="height: 35px; width: 145px;" placeholder="Até:">
+            <span class="add-on" style="height: 35px;">
                 <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
             </span>
           </div>
-          <!--<div id="datetimepicker2" class="input-append date datetimepicker" class="form-control">
-            <input type="text" name="dataBuscaFinal" value="" style="height: 35px;">
-            <span class="add-on">
-                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-            </span>
-          </div>-->
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-4">
           <select class="form-control" name="pessoaBusca" id="pessoaBusca" >
             <option value="0">SELECIONE UMA PESSOA</option>
             {% for pessoa in pessoas %}
-                {% if pessoa.id == conta.pessoa.id %}
+                {% if pessoa.id == 1 %}
                 <option value="{{ pessoa.id }}" selected>{{ pessoa.nome }} - {{ pessoa.email }}</option>
                 {% else %}
                 <option value="{{ pessoa.id }}">{{ pessoa.nome }} - {{ pessoa.email }}</option>
@@ -47,9 +65,6 @@
       </div>
     </div>  
   </form>
-  
-  <!--<a href="/caixas/adicionar/" class="btn btn-warning">Cadastra Conta</a>-->
-
 </div>
 <hr>
 {% for nome in nome %}

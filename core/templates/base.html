@@ -1,4 +1,4 @@
-{% load staticfiles %} <!-- PARA USAR O CAMINHO PADRAO STATIC_URL -->
+  {% load staticfiles %} <!-- PARA USAR O CAMINHO PADRAO STATIC_URL -->
 
 <!DOCTYPE html>
 <html lang="pt_BR">
@@ -8,17 +8,13 @@
     <title>{% block titulo %}{% endblock titulo %} - Financeiro Pessoal</title>
 
     <!-- CSS -->
-    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}logo/logo_P.png">
     <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css"  href="{{ STATIC_URL }}css/bootstrap-datetimepicker.min.css">
     <!-- FIM CSS -->  
-
-
- 
-
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
   </head>
-
   <body>
     <!-- MENU -->
     <nav class="navbar navbar-inverse" role="navigation">
@@ -59,19 +55,10 @@
     </footer>
     <!-- FIM RODAPE -->
 
-    <!-- JavaScript -->
-    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <!-- JavaScript -->    
     <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap-datetimepicker.min.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap-datetimepicker.pt-BR.js"></script>
-
-    <script type="text/javascript">
-      $('#datetimepicker').datetimepicker({
-        format: 'dd/MM/yyyy hh:mm:ss',
-        language: 'pt-BR'
-      });
-    </script>
-
     <!-- FIM JavaScript -->
     
   </body>
