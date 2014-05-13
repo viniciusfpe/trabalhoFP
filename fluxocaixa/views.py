@@ -13,14 +13,16 @@ def fluxoPesquisar(request):
         dataBuscaInicio = datetime.strptime(request.POST.get('dataBuscaInicio', ''), '%d/%m/%Y %H:%M:%S')
         dataBuscaFim = datetime.strptime(request.POST.get('dataBuscaFinal', ''), '%d/%m/%Y %H:%M:%S')
         
-        nome = Pessoa.objects.filter(id=pessoaBusca)
         pessoas = Pessoa.objects.all().order_by('nome')
 
         totalreceber = 0
         totalpagar = 0
        
-        try:
-            sql = "select * from caixas_conta where pessoa_id like %s  and data >= '%s' and  data <= '%s'" % (pessoaBusca, dataBuscaInicio, dataBuscaFim)
+        if int(pessoaBusca) == 0:
+            sql = "select cc.* from caixas_conta cc where cc.data >= '%s' and  cc.data <= '%s'" % (dataBuscaInicio, dataBuscaFim)
+        else:
+            sql = "select cc.* from caixas_conta cc inner join pessoas_pessoa pp on pp.id = cc.pessoa_id where cc.pessoa_id like %s  and cc.data >= '%s' and  cc.data <= '%s' order by cc.data" % (pessoaBusca, dataBuscaInicio, dataBuscaFim)
+        try:            
             contas = Conta.objects.raw(sql)
 
             for item in contas:
@@ -31,6 +33,6 @@ def fluxoPesquisar(request):
         except:
             contas = [Conta(descricao='erro')]
 
-        return render(request, 'fluxos/fluxoListar.html', {'contas': contas, 'nome':nome, 'pessoas': pessoas, 'totalreceber':totalreceber,'totalpagar':totalpagar})
+        return render(request, 'fluxos/fluxoListar.html', {'contas': contas, 'pessoas': pessoas, 'totalreceber': totalreceber, 'totalpagar': totalpagar})
 
 

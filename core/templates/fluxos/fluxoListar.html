@@ -52,13 +52,9 @@
         <div class="col-md-1"></div>
         <div class="col-md-4">
           <select class="form-control" name="pessoaBusca" id="pessoaBusca" >
-            <option value="0">SELECIONE UMA PESSOA</option>
+            <option value="0" selected>TODAS PESSOAS</option>
             {% for pessoa in pessoas %}
-                {% if pessoa.id == 1 %}
-                <option value="{{ pessoa.id }}" selected>{{ pessoa.nome }} - {{ pessoa.email }}</option>
-                {% else %}
                 <option value="{{ pessoa.id }}">{{ pessoa.nome }} - {{ pessoa.email }}</option>
-                {% endif %}
             {% endfor %} 
           </select>
         </div>
@@ -70,14 +66,12 @@
   </form>
 </div>
 <hr>
-{% for nome in nome %}
-  <h4>Nome: {{ nome.nome }}</h4>
-{% endfor %}  
 <br />
 <div id="tableFluxo" class="table-responsive">
       <table class="table table-striped">
         <thead>
           <tr>
+            <th>Nome</th>
             <th>Descrição da Conta</th>
             <th>Data</th>
             <th>Tipo</th>
@@ -86,7 +80,8 @@
         </thead>
         <tbody>
         {% for conta in contas %}
-          <tr>            
+          <tr>  
+            <td>{{ conta.pessoa.nome }}</td>          
             <td>{{ conta.descricao }}</td>
             <td>{{ conta.data|date:"d/m/Y" }}</td>
             <td>{{ conta.tipo }}</td>
@@ -102,5 +97,5 @@
       </table>
 </div>
 <button class="btn btn-primary" onclick="window.print();" style="float:right;"> Imprimir <span class="glyphicon glyphicon-print"></span></button>
-
+{{ sql }}
 {% endblock conteudo %}
