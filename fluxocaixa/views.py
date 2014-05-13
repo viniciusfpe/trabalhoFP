@@ -1,3 +1,9 @@
+'''
+AUTOR: Vinicius Fernandes Peixoto
+USER GitHub: vfpeixoto
+EMAIL: vfernandespeixoto@gmail.com
+'''
+
 from django.shortcuts import render, HttpResponseRedirect
 from datetime import datetime
 from caixas.models import Conta
