@@ -5,7 +5,7 @@ EMAIL: vfernandespeixoto@gmail.com
 '''
 
 from django.shortcuts import render, HttpResponseRedirect
-from datetime import datetime
+from datetime import datetime, date
 from caixas.models import Conta
 from pessoas.models import Pessoa
 
@@ -16,21 +16,25 @@ def fluxoListar(request):
 def fluxoPesquisar(request):
     if request.method == 'POST':
         pessoaBusca = request.POST.get('pessoaBusca')
-        dataBuscaInicio = datetime.strptime(request.POST.get('dataBuscaInicio', ''), '%d/%m/%Y %H:%M:%S')
-        dataBuscaFim = datetime.strptime(request.POST.get('dataBuscaFinal', ''), '%d/%m/%Y %H:%M:%S')
+        dataBuscaInicio = request.POST.get('dataBuscaInicio', '')
+        dataBuscaFim = request.POST.get('dataBuscaFinal', '')
         
         pessoas = Pessoa.objects.all().order_by('nome')
 
-        totalreceber = 0
-        totalpagar = 0
+        split1 = dataBuscaInicio[0:10].split('/') 
+        split2 = dataBuscaFim[0:10].split('/')
        
         if int(pessoaBusca) == 0:
-            sql = "select cc.* from caixas_conta cc where cc.data >= '%s' and  cc.data <= '%s'" % (dataBuscaInicio, dataBuscaFim)
+            contas = Conta.objects.filter(data__gte=date( int(split1[2]), int(split1[1]), int(split1[0]) ) 
+                                        , data__lte=date( int(split2[2]), int(split2[1]), int(split2[0]) ))
         else:
-            sql = "select cc.* from caixas_conta cc inner join pessoas_pessoa pp on pp.id = cc.pessoa_id where cc.pessoa_id like %s  and cc.data >= '%s' and  cc.data <= '%s' order by cc.data" % (pessoaBusca, dataBuscaInicio, dataBuscaFim)
-        try:            
-            contas = Conta.objects.raw(sql)
+            contas = Conta.objects.filter(pessoa_id = pessoaBusca, data__gte=date( int(split1[2]), int(split1[1]), int(split1[0]) ) 
+                                        , data__lte=date( int(split2[2]), int(split2[1]), int(split2[0]) ))        
+        
+        totalreceber = 0
+        totalpagar = 0
 
+        try:           
             for item in contas:
                 if item.tipo == 'E':
                     totalreceber = totalreceber + item.valor
@@ -40,5 +44,3 @@ def fluxoPesquisar(request):
             contas = []
 
         return render(request, 'fluxos/fluxoListar.html', {'contas': contas, 'pessoas': pessoas, 'totalreceber': totalreceber, 'totalpagar': totalpagar})
-
-
