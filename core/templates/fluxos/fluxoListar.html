@@ -27,8 +27,12 @@
     }
   }
 </script>
-<style type="text/css" media="print">
-  nav, footer, div[align='center'], .btn{display: none;}
+<style type="text/css">
+  @media print{
+    nav, footer, div[align='center'], .btn{display: none;}
+    #tituloImp{display:block;}
+  }
+  .tituloImp{display:none;}
 </style>
 
 <div align="center"> 
@@ -67,6 +71,8 @@
 </div>
 <hr>
 <br />
+<h3 id="tituloImp" class="tituloImp">Fluxo de Caixa</h3>
+<br>
 <div id="tableFluxo" class="table-responsive">
       <table class="table table-striped">
         <thead>
